@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="94dp">
+
+        <TextView
+            android:id="@+id/game_rating_textview"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="1dp"
+            android:text="rating"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/game_title_textview"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="1dp" />
+
+        <TextView
+            android:id="@+id/game_title_textview"
+            android:layout_width="130dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="180dp"
+            android:layout_marginBottom="1dp"
+            android:text="TextView"
+            android:gravity="center_horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/release_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/game_rating_textview"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="180dp" />
+
+        <TextView
+            android:id="@+id/release_date"
+            android:layout_width="130dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="180dp"
+            android:layout_marginBottom="2dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toTopOf="@+id/game_platform_textview"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/game_rating_textview"
+            app:layout_constraintTop_toBottomOf="@+id/game_title_textview"
+            android:layout_marginLeft="1dp"
+            android:layout_marginRight="180dp" />
+
+        <TextView
+            android:id="@+id/game_platform_textview"
+            android:layout_width="131dp"
+            android:layout_height="26dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="180dp"
+            android:layout_marginRight="180dp"
+            android:layout_marginBottom="0dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/game_rating_textview"
+            app:layout_constraintTop_toBottomOf="@+id/release_date" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>
