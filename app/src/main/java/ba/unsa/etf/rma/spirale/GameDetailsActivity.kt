@@ -16,7 +16,7 @@ class GameDetailsActivity : AppCompatActivity() {
     private lateinit var game: Game
     private lateinit var impressionsList: RecyclerView
     private lateinit var impressionsListAdapter: DetailsListAdapter
-    private var userImpressionsList = getUserImpressions()
+//    private var userImpressionsList = getUserImpressions()
     private lateinit var coverImage: ImageView
     private lateinit var gameTitle: TextView
     private lateinit var platform: TextView
@@ -55,6 +55,8 @@ class GameDetailsActivity : AppCompatActivity() {
         } else {
             finish()
         }
+        //private
+        var userImpressionsList = getUserImpressions(game.title)
 
         //inicijalizacija adaptera
         impressionsListAdapter = DetailsListAdapter(game!!.userImpressions)

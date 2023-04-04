@@ -100,8 +100,22 @@ class GameData {
 
         private val impressions = games.associateBy({ it.title }, { it.userImpressions })
 
-        fun getUserImpressions(): List<UserImpression>{
+/*        fun getUserImpressions(): List<UserImpression>{
             return listOf(games[0].userImpressions[0], games[0].userImpressions[1], games[0].userImpressions[2], games[0].userImpressions[3], games[0].userImpressions[4],).sortedByDescending { it.timestamp }
+        }*/
+
+        fun getUserImpressions(title: String): List<UserImpression>{
+            val game_instance : Game?
+            game_instance = getDetails(title)
+            val returnList = mutableListOf<UserImpression>()
+
+            if (game_instance != null) {
+                for(impression in game_instance.userImpressions){
+                    returnList.add(impression)
+                }
+            }
+
+            return returnList.sortedByDescending { it.timestamp }
         }
 
         fun getAll(): List<Game> {
@@ -112,8 +126,10 @@ class GameData {
             return games.find { it.title == title }
         }
 
-        fun getImpressions(title: String): List<UserImpression>? {
+/*        fun getUserImpressions(title: String): List<UserImpression>? {
             return impressions[title]
-        }
+        }*/
+
     }
+
 }
