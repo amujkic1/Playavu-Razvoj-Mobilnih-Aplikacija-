@@ -1,10 +1,12 @@
 package ba.unsa.etf.rma.spirale
 
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +18,6 @@ class GameDetailsActivity : AppCompatActivity() {
     private lateinit var game: Game
     private lateinit var impressionsList: RecyclerView
     private lateinit var impressionsListAdapter: DetailsListAdapter
-//    private var userImpressionsList = getUserImpressions()
     private lateinit var coverImage: ImageView
     private lateinit var gameTitle: TextView
     private lateinit var platform: TextView
@@ -28,7 +29,6 @@ class GameDetailsActivity : AppCompatActivity() {
     private lateinit var genre: TextView
     private lateinit var homeButton: Button
     private lateinit var detailsButton: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game_details)
@@ -45,8 +45,6 @@ class GameDetailsActivity : AppCompatActivity() {
         genre = findViewById(R.id.genre_textview)
         homeButton = findViewById(R.id.home_button)
         detailsButton = findViewById(R.id.details_button)
-
-
 
         val extras = intent.extras
         if (extras != null) {
@@ -88,6 +86,10 @@ class GameDetailsActivity : AppCompatActivity() {
         publisher.text = game.publisher
         genre.text = game.genre
         description.text = game.description
+        var context: Context = coverImage.context
+        var Id: Int = context.resources.getIdentifier(game!!.coverImage, "drawable", context.packageName)
+        if(Id==0) Id =context.resources.getIdentifier("cover_image", "drawable", context.packageName)
+        coverImage.setImageResource(Id)
     }
 
     private fun getGameByTitle(name: String): Game {

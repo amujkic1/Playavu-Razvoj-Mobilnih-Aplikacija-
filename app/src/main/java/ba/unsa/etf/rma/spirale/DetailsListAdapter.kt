@@ -1,8 +1,10 @@
 package ba.unsa.etf.rma.spirale
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +19,8 @@ class DetailsListAdapter(
 
     class RatingBarViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         fun bind(impression: UserImpression){
-            val rating : RatingBar = itemView.findViewById(R.id.rating_bar)
+            val ratingBar : RatingBar = itemView.findViewById(R.id.rating_bar)
+            ratingBar.rating = 2.5F
         }
     }
 
@@ -33,6 +36,8 @@ class DetailsListAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+
         if(viewType == TYPE_REVIEW){
             val view = LayoutInflater.from(parent.context).inflate(R.layout.item_comment, parent, false)
             return CommentViewHolder(view)
@@ -47,6 +52,7 @@ class DetailsListAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
+
         return if(impressionsList[position] is UserRating){
                 TYPE_RATING
         } else{
@@ -55,11 +61,11 @@ class DetailsListAdapter(
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         if(getItemViewType(position) == TYPE_REVIEW){
             (holder as CommentViewHolder).bind(impressionsList[position])
         } else{
             (holder as RatingBarViewHolder).bind(impressionsList[position])
         }
     }
-
 }
