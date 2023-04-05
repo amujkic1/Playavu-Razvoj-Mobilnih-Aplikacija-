@@ -17,17 +17,14 @@ class DetailsListAdapter(
     private var impressionsList: List<UserImpression>
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class RatingBarViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        fun bind(impression: UserImpression){
-            val ratingBar : RatingBar = itemView.findViewById(R.id.rating_bar)
-            ratingBar.rating = 2.5F
-        }
+    inner class RatingBarViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        val username: TextView = itemView.findViewById(R.id.username_textview)
+        val ratingBar: RatingBar = itemView.findViewById(R.id.rating_bar)
     }
 
-    class CommentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        fun bind(impression: UserImpression){
-            val comment: TextView = itemView.findViewById(R.id.review_textview)
-        }
+    inner class CommentViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        val username: TextView = itemView.findViewById(R.id.username_textview)
+        val review: TextView = itemView.findViewById(R.id.review_textview)
     }
 
     fun updateImpression(impressionsList: List<UserImpression>) {
@@ -62,10 +59,17 @@ class DetailsListAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
+        val userImpression = impressionsList[position]
         if(getItemViewType(position) == TYPE_REVIEW){
-            (holder as CommentViewHolder).bind(impressionsList[position])
+            holder as CommentViewHolder
+            userImpression as UserReview
+            holder.username.text = userImpression.username
+            holder.review.text = userImpression.review
         } else{
-            (holder as RatingBarViewHolder).bind(impressionsList[position])
+            holder as RatingBarViewHolder
+            userImpression as UserRating
+            holder.username.text = userImpression.username
+            holder.ratingBar.rating = userImpression.rating.toFloat()
         }
     }
 }

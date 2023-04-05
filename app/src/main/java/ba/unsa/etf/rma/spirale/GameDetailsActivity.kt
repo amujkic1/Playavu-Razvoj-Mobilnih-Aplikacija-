@@ -23,6 +23,7 @@ class GameDetailsActivity : AppCompatActivity() {
     private lateinit var platform: TextView
     private lateinit var releaseDate: TextView
     private lateinit var rating: TextView
+    private lateinit var review: TextView
     private lateinit var developer: TextView
     private lateinit var publisher: TextView
     private lateinit var description: TextView
