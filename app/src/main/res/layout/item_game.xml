@@ -26,14 +26,18 @@
 
         <TextView
             android:id="@+id/game_title_textview"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:gravity="center_horizontal"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:maxLines="2"
+            android:ellipsize="end"
             android:text="TextView"
-            app:layout_constraintBottom_toTopOf="@+id/release_date"
             app:layout_constraintStart_toEndOf="@+id/game_rating_textview"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/release_date" />
+
 
         <TextView
             android:id="@+id/release_date"
