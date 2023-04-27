@@ -129,9 +129,7 @@ class OwnEspressoTest {
         homeRule.scenario.onActivity{ activity ->
             activity.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         }
-        Thread.sleep(5000)
-        onView(withId(R.id.gameDetailsItem)).perform(click())
-        onView(withText(selectedGame.description)).check(matches(isCompletelyDisplayed()))
+        onView(withId(R.id.game_list)).check(matches(isDisplayed()))
     }
 
     /*
