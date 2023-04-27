@@ -110,9 +110,7 @@ class OwnEspressoTest {
     * We first create an object that represents RecyclerView item that is clicked,
     * and we simulate clicking with actionOnItem() function after which we want to assert that
     * clicked game is displayed on screen with onView().check(matches(isCompletelyDisplayed()).
-    * After returning to portrait orientation we want to assure that last clicked game is memorised
-    * We achieve that by simulating the click on details button from bottom navigation and
-    * checking if selected game is displayed
+    * After returning to portrait orientation we want to assure that we returned to home fragment
     * */
     @Test
     fun scenario2(){
