@@ -1,76 +1,90 @@
 package ba.unsa.etf.rma.spirale
 
-import android.widget.Button
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.res.Configuration
 import android.os.Bundle
-import android.widget.EditText
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import ba.unsa.etf.rma.spirale.GameData.GameData.getAll
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.NavDestination
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var gamesList: RecyclerView
-    private lateinit var gamesListAdapter: GameListAdapter
-    private var allGamesList =  getAll()
-    private lateinit var searchText: EditText
-    private lateinit var homeButton: Button
-    private lateinit var detailsButton: Button
-
-    private lateinit var selected: Game
+    private lateinit var navController: NavController
+    companion object {
+        lateinit var navControllerDetails: NavController
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
-        gamesList = findViewById(R.id.game_list)
-        searchText = findViewById(R.id.search_query_edittext)
-        detailsButton = findViewById(R.id.details_button)
-        homeButton = findViewById(R.id.home_button)
+
+        val bottomNav: BottomNavigationView = findViewById(R.id.bottom_nav)
+
+        var navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        navController = navHostFragment.navController
+        navController.graph.setStartDestination(R.id.homeItem)
 
 
-        gamesList.layoutManager = LinearLayoutManager(
-            this,
-            LinearLayoutManager.VERTICAL,
-            false
-        )
-        gamesListAdapter = GameListAdapter(arrayListOf()) { game -> showGameDetails(game) }
-        gamesList.adapter = gamesListAdapter
-        gamesListAdapter.updateGames(allGamesList)
-
-        homeButton.isEnabled = false
-
-        val extras = intent.extras
-        if (extras != null) {
-            selected = getGameByTitle(extras.getString("game_title", ""))
+        if(resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            bottomNav.visibility = View.GONE
+            onConfigurationChanged(Configuration())
         }
-        else detailsButton.isEnabled = false
-        detailsButton.setOnClickListener {
-            // Check if a game has been selected
-            selected.let { game ->
-                // Start the GameDetailsActivity with the selected game
-                val intent = Intent(this, GameDetailsActivity::class.java).apply {
-                    putExtra("game_title", game.title)
+
+        navController.addOnDestinationChangedListener(object :
+            NavController.OnDestinationChangedListener{
+            override fun onDestinationChanged(
+                controller: NavController,
+                destination: NavDestination,
+                arguments: Bundle?
+            ) {
+                if (destination.id == R.id.homeItem) {
+                    bottomNav.menu.findItem(R.id.homeItem).setEnabled(false);
+                    bottomNav.menu.findItem(R.id.gameDetailsItem).setEnabled(true);
+                    if(GameDetailsFragment.lastOpened == ""){
+                        bottomNav.menu.findItem(R.id.gameDetailsItem).setEnabled(false);
+                    }
+                } else if (destination.id == R.id.gameDetailsItem) {
+                    bottomNav.menu.findItem(R.id.homeItem).setEnabled(true);
+                    bottomNav.menu.findItem(R.id.gameDetailsItem).setEnabled(false);
                 }
-                startActivity(intent)
             }
         }
-    }
+        )
 
-    private fun showGameDetails(game: Game) {
-        detailsButton.isEnabled = true
-        selected = game
-        val intent = Intent(this, GameDetailsActivity::class.java).apply {
-            putExtra("game_title", game.title)
+        bottomNav.setOnItemSelectedListener { menuItem ->
+            when(menuItem.itemId){
+                R.id.homeItem -> {
+                    NavHostFragment.findNavController(navHostFragment).navigate(R.id.homeItem)
+                }
+                R.id.gameDetailsItem -> {
+                    println(GameDetailsFragment.lastOpened)
+                    NavHostFragment.findNavController(navHostFragment).navigate(R.id.gameDetailsItem,
+                    Bundle().apply { putString("game_title", GameDetailsFragment.lastOpened) })
+                }
+            }
+            true
         }
-        startActivity(intent)
     }
 
-    private fun getGameByTitle(name: String): Game {
-        val games: ArrayList<Game> = arrayListOf()
-        games.addAll(getAll())
-        val game = games.find { game -> name == game.title }
-        return game?:Game("Test","Test","Test",0.0,"Test","Test", "Test", "Test", "Test", "Test", emptyList())
+    override fun onConfigurationChanged(newConfig: Configuration){
+        super.onConfigurationChanged(newConfig)
+        val navHostFragmentDetails = supportFragmentManager.findFragmentById(R.id.nav_host_fragment_details_land) as NavHostFragment
+        navControllerDetails = navHostFragmentDetails.findNavController()
+        navControllerDetails.graph.setStartDestination(R.id.gameDetailsItem)
+        var gameList = GameData.getAll()
+        if(GameDetailsFragment.lastOpened == "") {
+            NavHostFragment.findNavController(navHostFragmentDetails).navigate(R.id.gameDetailsItem,
+                Bundle().apply { putString("game_title", gameList.first().title) })
+        }else{
+            NavHostFragment.findNavController(navHostFragmentDetails).navigate(R.id.gameDetailsItem,
+                Bundle().apply { putString("game_title", GameDetailsFragment.lastOpened) })
+        }
     }
+
 
 }

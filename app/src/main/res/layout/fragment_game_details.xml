@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <ImageView
+        android:id="@+id/logo_image"
+        android:layout_width="82dp"
+        android:layout_height="72dp"
+        android:layout_marginTop="0dp"
+        android:src="@drawable/playavu"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/item_title_textview"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="18dp"
+        android:text="Game Title"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/logo_image" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/details_list"
+        android:layout_width="407dp"
+        android:layout_height="163dp"
+        android:layout_marginTop="51dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_textview" />
+
+    <TextView
+        android:id="@+id/platform_textview"
+        android:layout_width="372dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:text="Platform"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cover_imageview" />
+
+    <TextView
+        android:id="@+id/release_date"
+        android:layout_width="372dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:text="Release date"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/platform_textview" />
+
+    <TextView
+        android:id="@+id/esrb_rating_textview"
+        android:layout_width="372dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:text="ESRB_rating"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/release_date" />
+
+    <TextView
+        android:id="@+id/developer_textview"
+        android:layout_width="372dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:text="Developer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/esrb_rating_textview" />
+
+    <TextView
+        android:id="@+id/publisher_textview"
+        android:layout_width="372dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:text="Publisher"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/developer_textview" />
+
+    <TextView
+        android:id="@+id/genre_textview"
+        android:layout_width="372dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:text="Genre"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/publisher_textview" />
+
+    <TextView
+        android:id="@+id/description_textview"
+        android:layout_width="372dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="19dp"
+        android:layout_marginLeft="19dp"
+        android:text="Description"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genre_textview" />
+
+
+    <ImageView
+        android:id="@+id/cover_imageview"
+        android:layout_width="141dp"
+        android:layout_height="93dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="7dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/item_title_textview"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,19 +1,22 @@
 package ba.unsa.etf.rma.spirale
 
 import android.content.Context
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.RatingBar
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ba.unsa.etf.rma.spirale.GameData.GameData.getAll
-import ba.unsa.etf.rma.spirale.GameData.GameData.getUserImpressions
 
-class GameDetailsActivity : AppCompatActivity() {
+class GameDetailsFragment : Fragment() {
+
+    companion object {
+        var lastOpened: String = ""
+    }
 
     private lateinit var game: Game
     private lateinit var impressionsList: RecyclerView
@@ -28,54 +31,41 @@ class GameDetailsActivity : AppCompatActivity() {
     private lateinit var publisher: TextView
     private lateinit var description: TextView
     private lateinit var genre: TextView
-    private lateinit var homeButton: Button
-    private lateinit var detailsButton: Button
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game_details)
 
-        impressionsList = findViewById(R.id.details_list)
-        coverImage = findViewById(R.id.cover_imageview)
-        gameTitle = findViewById(R.id.game_title_textview)
-        platform = findViewById(R.id.platform_textview)
-        releaseDate = findViewById(R.id.release_date)
-        rating = findViewById(R.id.esrb_rating_textview)
-        developer = findViewById(R.id.developer_textview)
-        publisher = findViewById(R.id.publisher_textview)
-        description = findViewById(R.id.description_textview)
-        genre = findViewById(R.id.genre_textview)
-        homeButton = findViewById(R.id.home_button)
-        detailsButton = findViewById(R.id.details_button)
 
-        val extras = intent.extras
-        if (extras != null) {
-            game = getGameByTitle(extras.getString("game_title",""))
-            populateDetails()
-        } else {
-            finish()
-        }
-        //private
-        var userImpressionsList = getUserImpressions(game.title)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        //inicijalizacija adaptera
+        var view = inflater.inflate(R.layout.fragment_game_details, container, false)
+        impressionsList = view.findViewById(R.id.details_list)
+        coverImage = view.findViewById(R.id.cover_imageview)
+        gameTitle = view.findViewById(R.id.item_title_textview)
+        platform = view.findViewById(R.id.platform_textview)
+        releaseDate = view.findViewById(R.id.release_date)
+        rating = view.findViewById(R.id.esrb_rating_textview)
+        developer = view.findViewById(R.id.developer_textview)
+        publisher = view.findViewById(R.id.publisher_textview)
+        description = view.findViewById(R.id.description_textview)
+        genre = view.findViewById(R.id.genre_textview)
+
+        val bundle = arguments
+        //game = bundle?.getString("game_title") as Game
+        game = getGameByTitle(bundle?.getString("game_title")) as Game
+        lastOpened = game.title
+        //println(lastOpened)
+
+
         impressionsListAdapter = DetailsListAdapter(game!!.userImpressions)
         impressionsList.adapter = impressionsListAdapter
-        impressionsListAdapter.updateImpression(userImpressionsList)
+        impressionsListAdapter.updateImpression(game.userImpressions)
 
         impressionsList.layoutManager = LinearLayoutManager(
-            this,
+            activity,
             LinearLayoutManager.VERTICAL,
             false
         )
+        populateDetails()
+        return view
 
-        detailsButton.isEnabled = false
-
-        homeButton.setOnClickListener {
-            val intent = Intent(this, HomeActivity::class.java).apply {
-                putExtra("game_title", game.title)
-            }
-            startActivity(intent)
-        }
     }
 
     private fun populateDetails(){
@@ -93,11 +83,14 @@ class GameDetailsActivity : AppCompatActivity() {
         coverImage.setImageResource(Id)
     }
 
-    private fun getGameByTitle(name: String): Game {
+    private fun getGameByTitle(name: String?): Game {
+        /*if(name==null){
+            //lastOpened=""
+            return Game("Test","Test","Test",0.0,"Test","Test", "Test", "Test", "Test", "Test", emptyList())
+        }*/
         val games: ArrayList<Game> = arrayListOf()
         games.addAll(getAll())
         val game = games.find { game -> name == game.title }
         return game?:Game("Test","Test","Test",0.0,"Test","Test", "Test", "Test", "Test", "Test", emptyList())
     }
-
 }

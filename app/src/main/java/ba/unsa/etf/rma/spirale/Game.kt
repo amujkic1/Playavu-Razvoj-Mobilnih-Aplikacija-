@@ -1,5 +1,7 @@
 package ba.unsa.etf.rma.spirale
 
+import java.io.Serializable
+
 data class Game(
     val title: String,
     val platform: String,
@@ -12,4 +14,4 @@ data class Game(
     val genre: String,
     val description: String,
     val userImpressions: List<UserImpression>,
-)
+) : Serializable

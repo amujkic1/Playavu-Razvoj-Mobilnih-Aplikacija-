@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation"
+    app:startDestination="@id/homeItem">
+
+    <fragment
+        android:id="@+id/homeItem"
+        android:name="ba.unsa.etf.rma.spirale.HomeFragment"
+        android:label="homeItem" >
+        <action
+            android:id="@+id/action_homeItem_to_gameDetailsItem"
+            app:destination="@id/gameDetailsItem" />
+    </fragment>
+    <fragment
+        android:id="@+id/gameDetailsItem"
+        android:name="ba.unsa.etf.rma.spirale.GameDetailsFragment"
+        android:label="GameDetailsItem" >
+        <argument
+            android:name="gameTitle"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue=' ' />
+        <action
+            android:id="@+id/action_gameDetailsItem_to_homeItem"
+            app:destination="@id/homeItem" />
+    </fragment>
+</navigation>

@@ -19,13 +19,13 @@
             android:textSize="30dp"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/game_title_textview"
+            app:layout_constraintEnd_toStartOf="@+id/item_title_textview"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:layout_marginRight="1dp" />
 
         <TextView
-            android:id="@+id/game_title_textview"
+            android:id="@+id/item_title_textview"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -50,7 +50,7 @@
             android:text="TextView"
             app:layout_constraintBottom_toTopOf="@+id/game_platform_textview"
             app:layout_constraintStart_toEndOf="@+id/game_rating_textview"
-            app:layout_constraintTop_toBottomOf="@+id/game_title_textview" />
+            app:layout_constraintTop_toBottomOf="@+id/item_title_textview" />
 
         <TextView
             android:id="@+id/game_platform_textview"

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/item_title_textview"
+        android:layout_width="303dp"
+        android:layout_height="20dp"
+        android:layout_margin="16dp"
+        android:text="Game Title"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/details_list"
+        android:layout_width="360dp"
+        android:layout_height="160dp"
+        android:layout_marginTop="8dp"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_textview" />
+
+    <TextView
+        android:id="@+id/platform_textview"
+        android:layout_width="360dp"
+        android:layout_height="18dp"
+        android:layout_marginTop="7dp"
+        android:text="Platform"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cover_imageview" />
+
+    <TextView
+        android:id="@+id/release_date"
+        android:layout_width="360dp"
+        android:layout_height="18dp"
+        android:text="Release date"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/platform_textview" />
+
+    <TextView
+        android:id="@+id/esrb_rating_textview"
+        android:layout_width="360dp"
+        android:layout_height="18dp"
+        android:text="ESRB_rating"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genre_textview" />
+
+    <TextView
+        android:id="@+id/developer_textview"
+        android:layout_width="360dp"
+        android:layout_height="18dp"
+        android:text="Developer"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/esrb_rating_textview" />
+
+    <TextView
+        android:id="@+id/publisher_textview"
+        android:layout_width="360dp"
+        android:layout_height="18dp"
+        android:text="Publisher"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/developer_textview" />
+
+    <TextView
+        android:id="@+id/genre_textview"
+        android:layout_width="360dp"
+        android:layout_height="18dp"
+        android:text="Genre"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/release_date" />
+
+
+    <TextView
+        android:id="@+id/description_textview"
+        android:layout_width="363dp"
+        android:layout_height="76dp"
+        android:text="Description"
+        android:textSize="12sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/publisher_textview" />
+
+    <ImageView
+        android:id="@+id/cover_imageview"
+        android:layout_width="70dp"
+        android:layout_height="37dp"
+        app:layout_constraintStart_toEndOf="@+id/item_title_textview"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_launcher_background" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

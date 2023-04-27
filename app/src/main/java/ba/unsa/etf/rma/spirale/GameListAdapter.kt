@@ -2,7 +2,6 @@ package ba.unsa.etf.rma.spirale
 
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.OnClickListener
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -34,7 +33,7 @@ class GameListAdapter(
     }
 
     inner class GameViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val titleTextview : TextView = itemView.findViewById(R.id.game_title_textview)
+        val titleTextview : TextView = itemView.findViewById(R.id.item_title_textview)
         val releaseDateTextview : TextView = itemView.findViewById(R.id.release_date)
         val platformTextview : TextView = itemView.findViewById(R.id.game_platform_textview)
         val ratingTextview : TextView = itemView.findViewById(R.id.game_rating_textview)
