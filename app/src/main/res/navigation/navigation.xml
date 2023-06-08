@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/homeItem"
-        android:name="ba.unsa.etf.rma.spirale.HomeFragment"
+        android:name="ba.etf.rma23.projekat.data.repositories.HomeFragment"
         android:label="homeItem" >
         <action
             android:id="@+id/action_homeItem_to_gameDetailsItem"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/gameDetailsItem"
-        android:name="ba.unsa.etf.rma.spirale.GameDetailsFragment"
+        android:name="ba.etf.rma23.projekat.data.repositories.GameDetailsFragment"
         android:label="GameDetailsItem" >
         <argument
             android:name="gameTitle"

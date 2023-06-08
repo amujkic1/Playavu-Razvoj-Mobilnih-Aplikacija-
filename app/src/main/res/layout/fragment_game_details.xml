@@ -120,5 +120,25 @@
         app:layout_constraintTop_toBottomOf="@+id/item_title_textview"
         app:srcCompat="@drawable/ic_launcher_background" />
 
+    <Button
+        android:id="@+id/favorite_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginBottom="24dp"
+        android:text="+FAVORITE"
+        app:layout_constraintBottom_toTopOf="@+id/item_title_textview"
+        app:layout_constraintStart_toEndOf="@+id/logo_image" />
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:text="DELETE"
+        app:layout_constraintStart_toEndOf="@+id/favorite_button"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
