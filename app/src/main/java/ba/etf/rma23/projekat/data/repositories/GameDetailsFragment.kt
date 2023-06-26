@@ -72,9 +72,12 @@ class GameDetailsFragment : Fragment() {
             removeGame(game.id)
         }
 
-        impressionsListAdapter = DetailsListAdapter(emptyList())
-        impressionsList.adapter = impressionsListAdapter
-        impressionsListAdapter.updateImpression(emptyList())
+        var gameReview: GameReview = GameReview(2, "mediocre", 3, 1025, false, "", "")
+        var context = requireContext()
+
+        //sendReview(gameReview, context)
+
+        getUserImpressions()
 
         impressionsList.layoutManager = LinearLayoutManager(
             activity,
@@ -82,7 +85,67 @@ class GameDetailsFragment : Fragment() {
             false
         )
         populateDetails()
+
         return view
+
+    }
+
+    fun populateUserImpressions(reviews : List<GameReview>): List<UserImpression>{
+        var impression: UserImpression
+        var userImpressions: ArrayList<UserImpression> = ArrayList()
+        for(gameReview in reviews){
+            if(gameReview.rating == null){
+                impression = UserReview("username", 1, gameReview.review)
+                userImpressions.add(impression)
+            }
+            if(gameReview.review == null){
+                impression = UserRating("username", 1, gameReview.rating?.toDouble() ?: 0.0)
+                userImpressions.add(impression)
+            }
+            if(gameReview.review != null && gameReview.rating != null){
+                impression = UserRating("username", 1, gameReview.rating?.toDouble() ?: 0.0)
+                userImpressions.add(impression)
+                impression = UserReview("username", 1, gameReview.review)
+                userImpressions.add(impression)
+            }
+        }
+        return userImpressions
+    }
+
+    fun sendReview(gameReview: GameReview, context: Context){
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+            val result = GameReviewsRepository.sendReview(context, gameReview)
+            when(result){
+                is Boolean -> onSuccess3(result)
+                else -> onError3()
+            }
+        }
+    }
+
+    private fun getUserImpressions() {
+        println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
+        val scope = CoroutineScope(Job() + Dispatchers.Main)
+        scope.launch {
+            val result = GameReviewsRepository.getReviewsForGame(game.id)
+            when(result){
+                is List<GameReview> -> onSuccess2(result)
+                else -> onError1()
+            }
+        }
+    }
+
+    fun onSuccess2(gameReviews: List<GameReview>){
+        impressionsListAdapter = DetailsListAdapter(populateUserImpressions(gameReviews))
+        impressionsList.adapter = impressionsListAdapter
+        impressionsListAdapter.updateImpression(populateUserImpressions(gameReviews))
+        println(populateUserImpressions(gameReviews).size)
+        println("broj reviewsa jeeeeeeeeeeeeeeeeeeeeeeeeee " + gameReviews.size)
+        if(gameReviews.size > 0)
+            println("review je " + gameReviews[0].review + "rating jr " + gameReviews[0].rating)
+        else
+            println("nema reviewaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
+        println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
     }
 
@@ -96,6 +159,14 @@ class GameDetailsFragment : Fragment() {
             }
         }
         return emptyList()
+    }
+
+    fun onSuccess3(value: Boolean): Boolean{
+        return true
+    }
+
+    fun onError3(): Boolean{
+        return false
     }
 
     fun onSuccess1(games: List<Game>): List<Game>{
@@ -151,7 +222,8 @@ class GameDetailsFragment : Fragment() {
             rating.text = game.ageRatings?.get(0)?.toString() ?: "0"
         else rating.text = " "
         genre.text = game.genres?.getOrNull(1)?.name ?: ""
-        description.text = game.description ?: ""
+        //description.text = game.description ?: ""
+        description.text = "no description"
         publisher.text = game.publisher
         println(game.publisher)
         println(game.developer)

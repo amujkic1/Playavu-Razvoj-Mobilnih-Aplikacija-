@@ -15,7 +15,15 @@ interface AccountApi {
 
     @DELETE("/account/{aid}/game/{gid}/")
     suspend fun removeGame(
-                            @Path("aid") accountId: String = "ca0ee672-440b-45b2-8a12-75b80f4fbdd3",
+                            @Path("aid") accountId: String = AccountGamesRepository.accountHash,
                             @Path("gid") gameId: Int): DeleteResponse
+
+    @GET("/game/{gid}/gamereviews")
+    suspend fun getReviewsForGame(@Path("gid") gameId: Int): Response<List<GameReview>>
+
+    @POST("/account/{aid}/game/{gid}/gamereview")
+    suspend fun sendReviewToWeb(@Path("aid") accountId: String,
+                                  @Path("gid") gameId: Int,
+                                  @Body gameReview: PostReview)
 
 }

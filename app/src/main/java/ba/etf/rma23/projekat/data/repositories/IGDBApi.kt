@@ -10,6 +10,7 @@ interface IGDBApi {
         value = ["Client-ID: 44z88tqoevkhyqgh8rmwdffciz8nn3",
             "Authorization: Bearer " + BuildConfig.CLIENT_TOKEN]
     )
+
     @GET("games/")
     suspend fun getGamesByName(@Query("search") name: String?,
                                @Query("fields") fields: String = "id, name, platforms.name, release_dates.human, " +
@@ -20,5 +21,9 @@ interface IGDBApi {
                                @Query("fields") fields: String = "id, name, platforms.name, release_dates.human, " +
                                        "rating, cover.url, genres.name, involved_companies.publisher, involved_companies.developer, involved_companies.company.name, summary, age_ratings"): Response<List<Game>>
 
+    @GET("games/{id}")
+    suspend fun getById(@Path("id") id: Int,
+                        @Query("fields") fields: String = "id, name, platforms.name, release_dates.human, " +
+                                "rating, cover.url, genres.name, involved_companies.publisher, involved_companies.developer, involved_companies.company.name, summary, age_ratings"): Response<List<Game>>
 
 }

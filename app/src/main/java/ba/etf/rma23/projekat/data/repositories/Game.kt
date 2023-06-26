@@ -32,6 +32,9 @@ data class Game(
     @SerializedName("involved_companies")
     var involvedComp: List<InvolvedCompany>? = emptyList())
 {
+
+
+
     fun populate(){
         if(platforms!=null) platform = platforms[0].name!!
         if(releaseDateList!=null) releaseDate = releaseDateList[0].human!!
@@ -69,19 +72,6 @@ data class Game(
             developer = ""
             publisher = ""
         }
-        //if(involvedComp!=null) publisher = involvedComp!![0].comp.name!!
-        /*val developers = mutableListOf<String>()
-        val publishers = mutableListOf<String>()
-        involvedComp?.forEach { involvedCompany ->
-            if (involvedCompany.dev == true) {
-                involvedCompany.comp?.name?.let { developers.add(it) }
-            }
-            if (involvedCompany.pub == true) {
-                involvedCompany.comp?.name?.let { publishers.add(it) }
-            }
-        }
-        developer = developers.joinToString(", ")
-        publisher = publishers.joinToString(", ")*/
         cover_img = covers?.url
     }
 

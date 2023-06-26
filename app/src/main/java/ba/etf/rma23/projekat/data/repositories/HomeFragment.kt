@@ -1,6 +1,8 @@
 package ba.etf.rma23.projekat.data.repositories
 
+import android.content.Context
 import android.content.res.Configuration
+import android.net.ConnectivityManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,33 +44,61 @@ class HomeFragment : Fragment() {
         favoritesButton = view.findViewById(R.id.favorites_button)
         sortButton = view.findViewById(R.id.sort_button)
 
+
         searchButton.setOnClickListener{
-            getGamesByName(searchText.text.toString())
-            //getGamesContainingString(searchText.text.toString())
+            val toast = Toast.makeText(context, "Search start", Toast.LENGTH_SHORT)
+            toast.show()
+            if (isConnectedToNetwork()) {
+                getGamesByName(searchText.text.toString())
+            } else {
+                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+            }
         }
 
         favoritesButton.setOnClickListener{
-            getSavedGames()
+            val toast = Toast.makeText(context, "Search start", Toast.LENGTH_SHORT)
+            toast.show()
+            if (isConnectedToNetwork()) {
+                getSavedGames()
+            } else {
+                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+            }
         }
 
         sortButton.setOnClickListener {
-            sortGames()
+            val toast = Toast.makeText(context, "Search start", Toast.LENGTH_SHORT)
+            toast.show()
+            if (isConnectedToNetwork()) {
+                sortGames()
+            } else {
+                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+            }
         }
 
-        //korisnik vidi sačuvane igrice kad tek otvori app
-        getSavedGames()
+        if (isConnectedToNetwork()) {
+            getSavedGames()
+        } else {
+            Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+        }
+
+        if(isConnectedToNetwork()){
+            getOfflineReviews()
+        } else {
+            Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+        }
 
         return view
     }
 
 
-    private fun getGamesContainingString(query: String){
+    private fun getOfflineReviews(){
         val scope = CoroutineScope(Job() + Dispatchers.Main)
         scope.launch {
-            val result = AccountGamesRepository.getGamesContainingString(query)
+            //val result = GameReviewsRepository.getOfflineReviews(requireContext())
+            val result = context?.let { GameReviewsRepository.getOfflineReviews(it) }
             when(result){
-                is List<Game> -> onSuccess(result)
-                else -> onError()
+                is List<GameReview> -> onSuccess1(context, result)
+                else -> onError(context)
             }
         }
     }
@@ -76,10 +106,10 @@ class HomeFragment : Fragment() {
     private fun getGamesByName(query: String) {
         val scope = CoroutineScope(Job() + Dispatchers.Main)
         scope.launch {
-            val result = GamesRepository.getGamesByName(query)
+                val result = GamesRepository.getGamesByName(query)
             when(result){
-                is List<Game> -> onSuccess(result)
-                else -> onError()
+                is List<Game> -> onSuccess(context, result)
+                else -> onError(context)
             }
         }
     }
@@ -89,8 +119,8 @@ class HomeFragment : Fragment() {
         scope.launch {
             val result = AccountGamesRepository.getSavedGames()
             when(result){
-                is List<Game> -> onSuccess(result)
-                else -> onError()
+                is List<Game> -> onSuccess(context, result)
+                else -> onError(context)
             }
         }
     }
@@ -100,8 +130,8 @@ class HomeFragment : Fragment() {
         scope.launch {
             val result = GamesRepository.sortGames()
             when(result){
-                is List<Game> -> onSuccess(result)
-                else -> onError()
+                is List<Game> -> onSuccess(context, result)
+                else -> onError(context)
             }
         }
     }
@@ -111,23 +141,41 @@ class HomeFragment : Fragment() {
         scope.launch {
             val result = GamesRepository.getGamesSafe(query)
             when(result){
-                is List<Game> -> onSuccess(result)
-                else -> onError()
+                is List<Game> -> onSuccess(context, result)
+                else -> onError(context)
             }
         }
     }
 
-    fun onSuccess(games: List<Game>){
-        val toast = Toast.makeText(context, "Games found", Toast.LENGTH_SHORT)
-        toast.show()
+    fun onSuccess(context: Context?, games: List<Game>) {
+        if (context != null) {
+            val toast = Toast.makeText(context, "Games found", Toast.LENGTH_SHORT)
+            toast.show()
+        }
         gamesListAdapter.updateGames(games)
     }
 
-    fun onError(){
-        val toast = Toast.makeText(context, "Search error", Toast.LENGTH_SHORT)
-        toast.show()
+    fun onSuccess1(context: Context?, games: List<GameReview>) {
+        if (context != null) {
+            val toast = Toast.makeText(context, "Reviews found", Toast.LENGTH_SHORT)
+            toast.show()
+            if(games.size == 0)
+                println("onlineeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
+            for(game in games){
+                println(game.online)
+                println(game.review)
+                println(game.id)
+                println(game.igdbID)
+            }
+        }
+        //gamesListAdapter.updateGames(games)
     }
-
+    fun onError(context: Context?) {
+        if (context != null) {
+            val toast = Toast.makeText(context, "Search error", Toast.LENGTH_SHORT)
+            toast.show()
+        }
+    }
     private fun showGameDetails(game: Game){
         lastOpened = getGameByTitle(game.name)
         if(resources.configuration.orientation != Configuration.ORIENTATION_LANDSCAPE)
@@ -140,6 +188,12 @@ class HomeFragment : Fragment() {
         val game = allGamesList.find { it.name == name }
         return game?:Game(1, "name","", "", 0.1, "", "", "", "", "", "",
             emptyList(), emptyList(), emptyList(), emptyList(), emptyList())
+    }
+
+    private fun isConnectedToNetwork(): Boolean {
+        val connectivityManager = context?.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        val networkInfo = connectivityManager?.activeNetworkInfo
+        return networkInfo?.isConnected == false
     }
 
     companion object {
