@@ -160,7 +160,6 @@ class HomeFragment : Fragment() {
             val toast = Toast.makeText(context, "Reviews found", Toast.LENGTH_SHORT)
             toast.show()
             if(games.size == 0)
-                println("onlineeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee")
             for(game in games){
                 println(game.online)
                 println(game.review)

@@ -116,7 +116,7 @@ class DBTest {
         InstrumentationRegistry.getInstrumentation().uiAutomation.executeShellCommand("svc data disable")
         Thread.sleep(2000)
         var rez =
-            GameReviewsRepository.sendReview(context, GameReview(678, "dobro", 3, idIGRE, false, "", ""))
+            GameReviewsRepository.sendReview(context, GameReview( "dobro", 3, idIGRE, false, "", ""))
             assert(!rez) { "Should return false" }
         executeCountAndCheck(countNotOnline, "broj_reviews", 1)
     }

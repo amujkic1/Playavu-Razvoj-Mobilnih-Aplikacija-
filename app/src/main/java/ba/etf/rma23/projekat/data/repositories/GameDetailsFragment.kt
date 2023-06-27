@@ -72,7 +72,7 @@ class GameDetailsFragment : Fragment() {
             removeGame(game.id)
         }
 
-        var gameReview: GameReview = GameReview(2, "mediocre", 3, 1025, false, "", "")
+        var gameReview: GameReview = GameReview("mediocre", 3, 1025, false, "", "")
         var context = requireContext()
 
         //sendReview(gameReview, context)

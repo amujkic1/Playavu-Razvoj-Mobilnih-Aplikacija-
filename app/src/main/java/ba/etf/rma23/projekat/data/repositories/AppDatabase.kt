@@ -11,7 +11,7 @@ abstract class AppDatabase : RoomDatabase() {
     companion object {
         private var INSTANCE: AppDatabase? = null
         fun getInstance(context: Context): AppDatabase {
-            //context.deleteDatabase("gameReview-db")
+            //context.deleteDatabase("gameReview-db2")
             if (INSTANCE == null) {
                 synchronized(AppDatabase::class) {
                     INSTANCE = buildRoomDB(context)
@@ -23,7 +23,7 @@ abstract class AppDatabase : RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 AppDatabase::class.java,
-                "gameReview-db2"
+                "gameReview-db3"
             ).build()
     }
 }
