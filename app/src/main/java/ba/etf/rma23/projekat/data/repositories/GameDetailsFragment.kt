@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -41,6 +42,9 @@ class GameDetailsFragment : Fragment() {
     private lateinit var genre: TextView
     private lateinit var favoriteButton: Button
     private lateinit var deleteButton: Button
+    private lateinit var addReviewButton: Button
+    private lateinit var reviewEditText: EditText
+    private lateinit var ratingEditText: EditText
     private var allGamesList : List<Game> = getAllItemsFromRecyclerView()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,9 +62,11 @@ class GameDetailsFragment : Fragment() {
         genre = view.findViewById(R.id.genre_textview)
         favoriteButton = view.findViewById(R.id.favorite_button)
         deleteButton = view.findViewById(R.id.delete_button)
+        addReviewButton = view.findViewById(R.id.addReviewButton)
+        reviewEditText = view.findViewById(R.id.reviewEditText)
+        ratingEditText = view.findViewById(R.id.ratingEditText)
 
         val bundle = arguments
-        //game = bundle?.getString("game_title") as Game
         game = getGameByTitle(bundle?.getString("game_title")) as Game
         lastOpened = game.name
 
@@ -72,10 +78,10 @@ class GameDetailsFragment : Fragment() {
             removeGame(game.id)
         }
 
-        var gameReview: GameReview = GameReview("mediocre", 3, 1025, false, "", "")
-        var context = requireContext()
-
-        //sendReview(gameReview, context)
+        addReviewButton.setOnClickListener{
+            sendReview(GameReview(reviewEditText.text.toString(), ratingEditText.text.toString().toInt(),
+                game.id, true, "", ""), requireContext())
+        }
 
         getUserImpressions()
 
@@ -124,7 +130,6 @@ class GameDetailsFragment : Fragment() {
     }
 
     private fun getUserImpressions() {
-        println("ooooooooooooooooooooooooooooooooooooooooooooooooooooooo")
         val scope = CoroutineScope(Job() + Dispatchers.Main)
         scope.launch {
             val result = GameReviewsRepository.getReviewsForGame(game.id)
@@ -139,13 +144,6 @@ class GameDetailsFragment : Fragment() {
         impressionsListAdapter = DetailsListAdapter(populateUserImpressions(gameReviews))
         impressionsList.adapter = impressionsListAdapter
         impressionsListAdapter.updateImpression(populateUserImpressions(gameReviews))
-        println(populateUserImpressions(gameReviews).size)
-        println("broj reviewsa jeeeeeeeeeeeeeeeeeeeeeeeeee " + gameReviews.size)
-        if(gameReviews.size > 0)
-            println("review je " + gameReviews[0].review + "rating jr " + gameReviews[0].rating)
-        else
-            println("nema reviewaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
-        println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 
     }
 

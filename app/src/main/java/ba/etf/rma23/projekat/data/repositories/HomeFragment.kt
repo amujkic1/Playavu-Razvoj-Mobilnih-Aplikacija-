@@ -48,43 +48,19 @@ class HomeFragment : Fragment() {
         searchButton.setOnClickListener{
             val toast = Toast.makeText(context, "Search start", Toast.LENGTH_SHORT)
             toast.show()
-            if (isConnectedToNetwork()) {
-                getGamesByName(searchText.text.toString())
-            } else {
-                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
-            }
+            getGamesByName(searchText.text.toString())
         }
 
         favoritesButton.setOnClickListener{
             val toast = Toast.makeText(context, "Search start", Toast.LENGTH_SHORT)
             toast.show()
-            if (isConnectedToNetwork()) {
-                getSavedGames()
-            } else {
-                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
-            }
+            getSavedGames()
         }
 
         sortButton.setOnClickListener {
-            val toast = Toast.makeText(context, "Search start", Toast.LENGTH_SHORT)
+            val toast = Toast.makeText(context, "Sort start", Toast.LENGTH_SHORT)
             toast.show()
-            if (isConnectedToNetwork()) {
-                sortGames()
-            } else {
-                Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        if (isConnectedToNetwork()) {
-            getSavedGames()
-        } else {
-            Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
-        }
-
-        if(isConnectedToNetwork()){
-            getOfflineReviews()
-        } else {
-            Toast.makeText(context, "No internet connection available", Toast.LENGTH_SHORT).show()
+            sortGames()
         }
 
         return view
@@ -159,15 +135,7 @@ class HomeFragment : Fragment() {
         if (context != null) {
             val toast = Toast.makeText(context, "Reviews found", Toast.LENGTH_SHORT)
             toast.show()
-            if(games.size == 0)
-            for(game in games){
-                println(game.online)
-                println(game.review)
-                println(game.id)
-                println(game.igdbID)
-            }
         }
-        //gamesListAdapter.updateGames(games)
     }
     fun onError(context: Context?) {
         if (context != null) {

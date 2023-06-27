@@ -23,17 +23,14 @@ object GameReviewsRepository {
         var count = 0
         for(review in offline){
             if(review.rating in 0..5 && (review.online == false || review.online == null)) {
-                //zamijeni hash
                 AccountApiConfig.retrofit.sendReviewToWeb(AccountGamesRepository.accountHash,
                                                     review.igdbID, PostReview(review.review, review.rating))
                 count++
-                //gameDAO.updateStatusToOnline()
                 var db = AppDatabase.getInstance(context)
                 db.gameDao().updateStatusToOnline()
                 review.online = true
             }
         }
-        //database.close()
         return count
     }
 
@@ -45,11 +42,6 @@ object GameReviewsRepository {
     }
 
     suspend fun sendReview(context: Context, gameReview: GameReview):Boolean {
-        /*if(isConnectedToNetwork(context)!=true){
-            gameReview.online = false
-            writeIfNotSentToWeb(context, gameReview)
-            return false
-        }*/
         try{
             val savedGames = AccountGamesRepository.getSavedGames()
             val gameIdExists = savedGames.any { it.id == gameReview.igdbID }

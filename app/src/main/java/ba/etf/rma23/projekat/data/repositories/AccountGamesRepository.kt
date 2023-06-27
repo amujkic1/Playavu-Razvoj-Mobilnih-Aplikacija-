@@ -60,7 +60,6 @@ object AccountGamesRepository {
         }
     }
 
-
     suspend fun removeNonSafe(): Boolean {
 
         var response = AccountApiConfig.retrofit.getSavedGames(accountHash)
@@ -121,7 +120,6 @@ object AccountGamesRepository {
         }
         return gamesToReturn
     }
-
 
     fun setHash(acHash: String): Boolean{
         this.accountHash = acHash
